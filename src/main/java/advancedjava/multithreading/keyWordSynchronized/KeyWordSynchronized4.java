@@ -1,14 +1,23 @@
 package advancedjava.multithreading.keyWordSynchronized;
 
 /**
- * Неверный подход. потоки не синхронезированны, значение counter всегда разное
- * проблема "Состояние гонки"
+ * Верный подход. потоки синхронезирован
+ * Решение задачи с помощью synchronized блока
  */
-public class KeyWordSynchronized1 {
+public class KeyWordSynchronized4 {
     private int counter;
     public static void main(String[] args) throws InterruptedException {
-        KeyWordSynchronized1 keyWordSynchronized1 = new KeyWordSynchronized1();
+        KeyWordSynchronized4 keyWordSynchronized1 = new KeyWordSynchronized4();
         keyWordSynchronized1.doWork();
+    }
+
+    /**
+     * Добавили synchronized блок
+     */
+    public void increment() {
+        synchronized (this) { //в synchronized блок передаем объект на котором не обходимо синхронезироваться
+            counter++;
+        }
     }
 
     private void doWork() throws InterruptedException {
@@ -16,7 +25,7 @@ public class KeyWordSynchronized1 {
             @Override
             public void run() {
                 for (int i = 0; i < 100000; i++) {
-                    counter++;
+                    increment();
                 }
             }
         });
@@ -25,7 +34,7 @@ public class KeyWordSynchronized1 {
             @Override
             public void run() {
                 for (int i = 0; i < 100000; i++) {
-                    counter++;
+                    increment();
                 }
             }
         });

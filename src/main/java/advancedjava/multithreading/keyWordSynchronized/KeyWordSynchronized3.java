@@ -1,13 +1,15 @@
 package advancedjava.multithreading.keyWordSynchronized;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
- * Неверный подход. потоки не синхронезированны, значение counter всегда разное
- * проблема "Состояние гонки"
+ * Верный подход. потоки синхронезированны
+ * Решение задачи через AtomicInteger
  */
-public class KeyWordSynchronized1 {
-    private int counter;
+public class KeyWordSynchronized3 {
+    private AtomicInteger counter = new AtomicInteger();
     public static void main(String[] args) throws InterruptedException {
-        KeyWordSynchronized1 keyWordSynchronized1 = new KeyWordSynchronized1();
+        KeyWordSynchronized3 keyWordSynchronized1 = new KeyWordSynchronized3();
         keyWordSynchronized1.doWork();
     }
 
@@ -16,7 +18,7 @@ public class KeyWordSynchronized1 {
             @Override
             public void run() {
                 for (int i = 0; i < 100000; i++) {
-                    counter++;
+                    counter.incrementAndGet();
                 }
             }
         });
@@ -25,7 +27,7 @@ public class KeyWordSynchronized1 {
             @Override
             public void run() {
                 for (int i = 0; i < 100000; i++) {
-                    counter++;
+                    counter.incrementAndGet();
                 }
             }
         });
