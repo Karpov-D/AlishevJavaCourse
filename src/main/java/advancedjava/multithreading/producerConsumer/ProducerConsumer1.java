@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Реализация патерна с помощью потокобезопастной очереди
  */
-public class producerConsumer1 {
+public class ProducerConsumer1 {
     private static BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(10);
 
     public static void main(String[] args) throws InterruptedException {
