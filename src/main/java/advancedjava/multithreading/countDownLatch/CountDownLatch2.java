@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CountDownLatchLib {
+public class CountDownLatch2 {
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -13,24 +13,22 @@ public class CountDownLatchLib {
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
         for (int i = 0; i < 3; i++)
-            executorService.submit(new Processor(i, countDownLatch));
+            executorService.submit(new Processor2(countDownLatch));
 
         executorService.shutdown();
 
-        for (int i = 0; i < 3; i++) {
-            Thread.sleep(1000);
-            countDownLatch.countDown();
-        }
+        countDownLatch.await();
+        System.out.println("Latch has been opened, main thread is proceeding!");
 
     }
 }
 
-class Processor implements Runnable {
-    private int id;
+class Processor2 implements Runnable {
+
     private CountDownLatch countDownLatch;
 
-    public Processor(int id, CountDownLatch countDownLatch) {
-        this.id = id;
+    public Processor2(CountDownLatch countDownLatch) {
+
         this.countDownLatch = countDownLatch;
     }
 
@@ -41,12 +39,7 @@ class Processor implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        countDownLatch.countDown();
 
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Thread with id " + id + " proceeded.");
     }
 }
