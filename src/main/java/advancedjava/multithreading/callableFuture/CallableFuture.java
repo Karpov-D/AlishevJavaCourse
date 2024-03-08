@@ -13,7 +13,9 @@ public class CallableFuture {
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-        Future<Integer> future = executorService.submit(() -> {
+        Future<Integer> future = executorService.submit(() -> { // лямбда выражение автоматически определяет
+            //какой интерфейс необходимо вызывать Runnable или Callable в случае если есть возвращаемое значение
+            // вызывается Callable иначе Runnable
             System.out.println("Starting");
             try {
                 Thread.sleep(1000);
